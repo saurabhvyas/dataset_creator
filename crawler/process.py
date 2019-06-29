@@ -6,11 +6,11 @@ import io
 import termcolor
 import re
 from tqdm import tqdm
-from crawler.youtube_helpers import get_hash, getsize
-from crawler.utils import extract_audio_part_segment
-from crawler.filters import Pipeline, OverlappingSubtitlesRemover, SubtitleCaptionTextFilter, SubtitleMerger,\
+from youtube_helpers import get_hash, getsize
+from utils import extract_audio_part_segment
+from filters import Pipeline, OverlappingSubtitlesRemover, SubtitleCaptionTextFilter, SubtitleMerger,\
     CaptionLengthFilter, CaptionRegexMatcher, CaptionDurationFilter, CaptionLeaveOnlyAlphaNumCharacters, CaptionNormalizer
-from crawler.youtube_helpers import load_all_subtitles
+from youtube_helpers import load_all_subtitles
 
 
 class RESULT:
