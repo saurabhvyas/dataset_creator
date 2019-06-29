@@ -3,6 +3,10 @@ __pycache__/
 *.py[cod]
 *$py.class
 
+# temporary directories
+output_intermediate/
+output_final/
+
 # C extensions
 *.so
 
