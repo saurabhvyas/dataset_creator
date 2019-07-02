@@ -13,6 +13,8 @@ do
     for kw in "${arr[@]}"
     do
          echo "$kw"
+        youtube-dl --download-archive ./en-downloaded.txt --no-overwrites -f mp4 --restrict-filenames --youtube-skip-dash-manifest --prefer-ffmpeg --socket-timeout 20  -iwc --write-info-json -k --write-srt --sub-format ttml --sub-lang en --convert-subs vtt  "https://www.youtube.com/results?sp=EgQIBCgB&q="$kw"&p="$i -o "$target_dir%(id)s%(title)s.%(ext)s" --exec "python3 ./crawler/process.py {} '$filter_dir'"
+
         #youtube-dl --download-archive ./en-downloaded.txt --no-overwrites -f mp4 --restrict-filenames --youtube-skip-dash-manifest --prefer-ffmpeg --socket-timeout 20  -iwc --write-info-json -k --write-srt --sub-format ttml --sub-lang en --convert-subs vtt  "https://www.youtube.com/results?sp=EgQIBCgB&q="$kw"&p="$i -o "$target_dir%(id)s%(title)s.%(ext)s" --exec "python3 ./crawler/process.py {} '$filter_dir'"
     done
 done
