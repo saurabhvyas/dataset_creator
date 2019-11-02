@@ -32,15 +32,26 @@ do
 
     # now send api request to local gentle server
     #curl -F "audio=${filename}" -F "transcript=@${text_file2}" "http://localhost:8765/transcriptions?async=false"
-    curl -X POST -F "audio=@${filename}" -F "transcript=<${text_file2}" 'http://localhost:8765/transcriptions?async=false'
+    #result=$(curl -o result.json -X POST -F "audio=@${filename}" -F "transcript=<${text_file2}" 'http://localhost:8765/transcriptions?async=false') 
+    result=$(curl  -X POST -F "audio=@${filename}" -F "transcript=<${text_file2}" 'http://localhost:8765/transcriptions?async=false') 
     #echo $result
 
     #get the json result and trim audio based on last gentle word ending time
+    end_time=$(echo $result | jq .words[-1].end)
+    echo $end_time
 
-    #ffmpeg -i file.mkv -ss 20 -to 40 -c copy file-2.mkv
+    # trim according to end time
+    ffmpeg -i $filename -ss 0 -to $end_time -c copy $dir/${base_filename}.trim.wav
+
 done
 
 done
+
+
+
+
+
+
 
 
 
