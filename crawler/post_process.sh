@@ -32,20 +32,31 @@ do
 
     # now send api request to local gentle server
     #curl -F "audio=${filename}" -F "transcript=@${text_file2}" "http://localhost:8765/transcriptions?async=false"
-    #result=$(curl -o result.json -X POST -F "audio=@${filename}" -F "transcript=<${text_file2}" 'http://localhost:8765/transcriptions?async=false') 
-    result=$(curl  -X POST -F "audio=@${filename}" -F "transcript=<${text_file2}" 'http://localhost:8765/transcriptions?async=false') 
+    result=$(curl -o result.json -X POST -F "audio=@${filename}" -F "transcript=<${text_file2}" 'http://localhost:8765/transcriptions?async=false') 
+    #result=$(curl  -X POST -F "audio=@${filename}" -F "transcript=<${text_file2}" 'http://localhost:8765/transcriptions?async=false') 
     #echo $result
 
+    # process using python script
+    python3 post_process_json.py -wav_file ${filename} -txt_file ${text_file2}
+
     #get the json result and trim audio based on last gentle word ending time
-    end_time="$(echo $result | jq .words | jq 'map(select(.end != null))[-1].end')"   
-    echo $end_time
+    #end_time="$(echo $result | jq .words | jq 'map(select(.end != null))[-1].end')"   
+    #echo $end_time
 
     # trim according to end time and save with same filename this is because we can use the webserver viewer code
       
-      ffmpeg -i $filename -ss 0 -to $end_time -y -c copy $filename
-    #ffmpeg -i $filename -ss 0 -to $end_time -c copy $dir/${base_filename}.trim.wav
+      #ffmpeg -i $filename -ss 0 -to $end_time -y -c copy $filename
+   
 
 done
 
 done
+
+
+
+
+
+
+
+
 
