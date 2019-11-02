@@ -37,21 +37,15 @@ do
     #echo $result
 
     #get the json result and trim audio based on last gentle word ending time
-    end_time=$(echo $result | jq .words[-1].end)
+    end_time="$(echo $result | jq .words | jq 'map(select(.end != null))[-1].end')"   
     echo $end_time
 
-    # trim according to end time
-    ffmpeg -i $filename -ss 0 -to $end_time -c copy $dir/${base_filename}.trim.wav
+    # trim according to end time and save with same filename this is because we can use the webserver viewer code
+      
+      ffmpeg -i $filename -ss 0 -to $end_time -y -c copy $filename
+    #ffmpeg -i $filename -ss 0 -to $end_time -c copy $dir/${base_filename}.trim.wav
 
 done
 
 done
-
-
-
-
-
-
-
-
 
