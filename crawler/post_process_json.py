@@ -9,6 +9,7 @@ args = parser.parse_args()
 
 # to do;
 # fix ffmpeg bug
+# add exception handling
 
 
 
@@ -55,23 +56,26 @@ for word in array:
 		ending_time=0
 		#sentence_ended = True
 
-print(" text : "  + text )
-print(" starting time : "  + str(starting_time) )
-print(" ending time : "  + str(ending_time) )
+#print(" text : "  + text )
+#print(" starting time : "  + str(starting_time) )
+#print(" ending time : "  + str(ending_time) )
+
 
 # overwrite text file
 with open(args.txt_file, 'w') as out:
     out.write(text)
 
+print(starting_time)
+print(ending_time)
 # trim audio
-import ffmpeg
+#import ffmpeg
 
-print(args.wav_file)
-print(args.txt_file)
+#print(args.wav_file)
+#print(args.txt_file)
 
 #in_file = ffmpeg.input(args.wav_file)
 
 
-audio=ffmpeg.input(args.wav_file).trim(start=starting_time, end=ending_time)
-ffmpeg.output(audio,"./output.wav").overwrite_output().run()
+#audio=ffmpeg.input(args.wav_file).trim(start=starting_time, end=ending_time)
+#ffmpeg.output(audio,"./output.wav").overwrite_output().run()
     
