@@ -37,15 +37,44 @@ do
     #echo $result
 
     # process using python script
-    python3 post_process_json.py -wav_file ${filename} -txt_file ${text_file2}
+    #python3 post_process_json.py -wav_file ${filename} -txt_file ${text_file2}
 
+    #mapfile -t myarray <<"python3 post_process_json.py -wav_file ${filename} -txt_file ${text_file2}"
+
+    #python_results=$(python3 post_process_json.py -wav_file ${filename} -txt_file ${text_file2})
+    #echo ${python_results}
+    #echo ${python_results[1]}
+    #echo ${python_results[2]}
+
+    #python3 post_process_json.py -wav_file ${filename} -txt_file ${text_file2} | while read line ; do
+    #echo $line
+    
+    #done
+
+    myarray=()
+   while read line ; do
+   myarray+=($line)
+  done < <(python3 post_process_json.py -wav_file ${filename} -txt_file ${text_file2})
+  #echo ${myarray[0]}
+
+    if [ ${myarray[0]} = 0 ]; then
+    
+        echo "bad aligned sentence ignoring" 
+        rm ${filename}
+        rm  ${text_file2}
+       
+    else
+    
+          # trim according to end time and save with same filename this is because we can use the webserver viewer code
+      
+          ffmpeg -i $filename -ss ${myarray[0]} -to ${myarray[1]} -y -c copy $filename
+    fi
+    
     #get the json result and trim audio based on last gentle word ending time
     #end_time="$(echo $result | jq .words | jq 'map(select(.end != null))[-1].end')"   
     #echo $end_time
 
-    # trim according to end time and save with same filename this is because we can use the webserver viewer code
-      
-      #ffmpeg -i $filename -ss 0 -to $end_time -y -c copy $filename
+
    
 
 done
