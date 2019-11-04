@@ -62,11 +62,21 @@ for word in array:
 
 
 # overwrite text file
-with open(args.txt_file, 'w') as out:
+data=0
+with open(args.txt_file, 'r+') as out:
+    data = out.read()
+    #if len(data) == 0:
+    
+        
     out.write(text)
 
-print(starting_time)
-print(ending_time)
+if text=="" or len(data) == 0:
+
+	print(0)
+	print(0)
+else:
+	print(starting_time)
+	print(ending_time)
 # trim audio
 #import ffmpeg
 
