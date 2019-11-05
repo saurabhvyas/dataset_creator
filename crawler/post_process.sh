@@ -67,7 +67,7 @@ do
   done < <(python3 post_process_json.py -wav_file ${filename} -txt_file ${text_file2})
   echo ${myarray[@]}
 
-  cp ${text_file2} ${text_file6}
+  cp ${filename} ${text_file6}
 
 
 
@@ -83,7 +83,8 @@ do
           # trim according to end time and save with same filename this is because we can use the webserver viewer code
       
           #ffmpeg -i $filename -ss ${myarray[0]} -to ${myarray[1]} -y -c copy $filename
-          ffmpeg -i $filename -ss ${myarray[0]} -to ${myarray[1]} -y -c copy ${text_file5}
+          ffmpeg -i $filename -ss ${myarray[0]} -to ${myarray[1]} -y -c copy ${filename}
+          cp $filename ${text_file5}
     fi
          
     fi
