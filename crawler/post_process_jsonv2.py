@@ -38,6 +38,8 @@ def get_sentence_boundary(json_file,txt_file):
 
         sentences=[]
 
+        current_longest_sentence_length=0
+        current_longest_sentence_id=0
 
         for word in array:
             if "end" in word:
@@ -52,7 +54,10 @@ def get_sentence_boundary(json_file,txt_file):
                     #text = word["alignedWord"]
             else :
                 if len(text) != 0:
-                    sentences.append([starting_time,ending_time,text])
+                    if len(text) > current_longest_sentence_length:
+                        current_longest_sentence_length=len(text)
+                        current_longest_sentence_id=len(sentences)
+                    sentences.append([starting_time,ending_time,len(text),text])
                     
                 text=""
                 sentence_started=False
@@ -65,14 +70,18 @@ def get_sentence_boundary(json_file,txt_file):
         #print(" ending time : "  + str(ending_time) )
 
 
-        # overwrite text file
+        # overwrite text file with longest sentence and return its starting time and ending time
         data=0
+
+        
+        
+            
         with open(txt_file, 'w+') as out:
             #data = out.read()
             #if len(data) == 0:
-            print(text)
+            #print(text)
                 
-            out.write(text)
+            out.write(sentences[current_longest_sentence_id][3])
 
         #if text=="" or len(data) == 0:
         if text=="":
@@ -80,7 +89,7 @@ def get_sentence_boundary(json_file,txt_file):
             return [0,0]
             
         else:
-            return [starting_time,ending_time]
+            return [sentences[current_longest_sentence_id][0], sentences[current_longest_sentence_id][1]]
 
 
 
