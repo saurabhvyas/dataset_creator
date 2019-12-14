@@ -112,18 +112,19 @@ def sendgentlerequest(wavfilepath,txtfilepath,outputjsonpath):
 
     '''
     import requests
-    payload = {'audio=@': wavfilepath, 'transcript=<': txt_file_path}
-    r = requests.post('http://localhost:8765/transcriptions?async=false',data=payload)
+    #payload = {'audio=@': wavfilepath, 'transcript=<': txt_file_path}
+    #r = requests.post('http://localhost:8765/transcriptions?async=false',data=payload)
 
-    import requests
-
+    #import requests
+    with open(txtfilepath, 'r') as file:
+        txt_data = file.read().replace('\n', '')
     params = (
         ('async', 'false'),
     )
 
     files = {
         'audio': ( wavfilepath, open(wavfilepath, 'rb')),
-        'transcript': (None, txtfilepath),
+        'transcript': (None, txt_data),
     }
 
     r = requests.post('http://localhost:8765/transcriptions', params=params, files=files)
